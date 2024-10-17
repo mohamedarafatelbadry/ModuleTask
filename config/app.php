@@ -173,6 +173,8 @@ return [
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
 
+        App\Providers\DashServiceProvider::class ,
+
 
 
     ])->toArray(),

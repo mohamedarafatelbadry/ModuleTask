@@ -20,7 +20,8 @@
         "phpanonymous/lynx": "^1.0",
         "spatie/laravel-permission": "^6.9",
         "spatie/laravel-query-builder": "^5.7",
-        "tymon/jwt-auth": "^2.1"
+        "tymon/jwt-auth": "^2.1",
+         "phpanonymous/dash":"*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
@@ -65,6 +66,12 @@
             "dont-discover": []
         }
     },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "dash"
+        }
+    ],
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",

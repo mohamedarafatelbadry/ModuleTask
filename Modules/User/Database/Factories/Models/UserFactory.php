@@ -37,7 +37,7 @@ class UserFactory extends Factory
 
     public function withRole($roleName)
     {
-        $user = $this->create(); 
+        $user = $this->create();
         $user->assignRole($roleName);
         return $user;
     }
