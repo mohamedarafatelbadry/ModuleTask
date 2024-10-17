@@ -2,12 +2,11 @@
 
 namespace Modules\Permissions\App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Modules\Permissions\Database\factories\PermissionsFactory;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
 class Permissions extends \Spatie\Permission\Models\Permission
 {
-    use HasFactory;
+    use HasUuids;
 
     /**
      * The attributes that are mass assignable.
