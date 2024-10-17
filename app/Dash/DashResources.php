@@ -6,4 +6,7 @@ return [
      \App\Dash\Resources\Admins::class,
      \App\Dash\Resources\Users::class,
     // Users End//
+
+
+    \App\Dash\Resources\Role::class,
 ];
