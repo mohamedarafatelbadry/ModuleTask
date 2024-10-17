@@ -13,7 +13,7 @@ class CreateFilemanagerTable extends Migration {
 	public function up() {
 		Schema::create('filemanager', function (Blueprint $table) {
 			$table->bigIncrements('id');
-			$table->foreignId('user_id')->nullable()->constrained('users')->references('id')->onDelete('cascade')->onUpdate('cascade');
+			$table->foreignUlid('user_id')->nullable()->constrained('users')->references('id')->onDelete('cascade')->onUpdate('cascade');
 			$table->string('file');
 			$table->string('full_path');
 			$table->string('storage_type')->nullable();
