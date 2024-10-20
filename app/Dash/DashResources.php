@@ -8,5 +8,5 @@ return [
     // Users End//
 
 
-    \App\Dash\Resources\Role::class,
+    \Modules\Permissions\App\DashResources\Role::class,
 ];

@@ -1,5 +1,5 @@
 <?php
-namespace App\Dash\Resources;
+namespace Modules\Permissions\App\DashResources;
 use Dash\Resource;
 use Modules\Permissions\App\Models\Role as ModelsRole;
 
