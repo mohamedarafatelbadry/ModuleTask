@@ -13,28 +13,35 @@ class UserTest extends TestCase
 {
     use RefreshDatabase;
 
-    protected $user;
+    protected $adminUser;
     protected $token;
 
     public function setUp(): void
     {
         parent::setUp();
 
-        // Create a user and generate a JWT token and assign admin role with permissions
-        $this->user = UserFactory::new()->create();
+        // Create an admin user and generate a JWT token
+        $this->adminUser = UserFactory::new()->create();
         $admin_role = Role::create(['name' => 'admin']);
-        // Assuming you have a method to get all admin permissions
         foreach (Permissions::adminPermissions() as $perm) {
             Permissions::firstOrCreate(['name' => $perm]);
         }
         $admin_role->syncPermissions(Permissions::adminPermissions());
-        $this->user->assignRole($admin_role->name);
-        $this->token = JWTAuth::fromUser($this->user);
+        $this->adminUser->assignRole($admin_role->name);
+        $this->token = JWTAuth::fromUser($this->adminUser);
+    }
+
+    protected function actingAsUser($user)
+    {
+        $this->actingAs($user, 'api'); // Assuming 'api' guard is used
+        $this->token = JWTAuth::fromUser($user);
     }
 
     /** @test */
     public function it_can_create_a_user()
     {
+        $this->actingAsUser($this->adminUser); // Act as the admin user
+
         $response = $this->postJson('/api/users', [
             'name' => 'New User',
             'email' => 'newuser@example.com',
@@ -53,6 +60,8 @@ class UserTest extends TestCase
     {
         $user = UserFactory::new()->create();
 
+        $this->actingAsUser($this->adminUser); // Act as the admin user
+
         $response = $this->putJson("/api/users/{$user->id}", [
             'name' => 'Updated User'
         ], [
@@ -68,6 +77,8 @@ class UserTest extends TestCase
     {
         $user = UserFactory::new()->create();
 
+        $this->actingAsUser($this->adminUser); // Act as the admin user
+
         $response = $this->deleteJson("/api/users/{$user->id}", [], [
             'Authorization' => 'Bearer ' . $this->token,
         ]);
@@ -81,6 +92,8 @@ class UserTest extends TestCase
     {
         $user = UserFactory::new()->create();
         $user->delete();
+
+        $this->actingAsUser($this->adminUser); // Act as the admin user
 
         $response = $this->postJson("/api/users/restore/{$user->id}", [], [
             'Authorization' => 'Bearer ' . $this->token,
@@ -96,6 +109,8 @@ class UserTest extends TestCase
         $user = UserFactory::new()->create();
         $user->delete();
 
+        $this->actingAsUser($this->adminUser); // Act as the admin user
+
         $response = $this->deleteJson("/api/users/force-delete/{$user->id}", [], [
             'Authorization' => 'Bearer ' . $this->token,
         ]);
@@ -109,6 +124,8 @@ class UserTest extends TestCase
     {
         UserFactory::new()->create(['name' => 'User One']);
         UserFactory::new()->create(['name' => 'User Two']);
+
+        $this->actingAsUser($this->adminUser); // Act as the admin user
 
         $response = $this->getJson('/api/users', [
             'Authorization' => 'Bearer ' . $this->token,
